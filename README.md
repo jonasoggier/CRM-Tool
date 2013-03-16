@@ -1,4 +1,4 @@
 CRM-Tool
 ========
 
-A simple CRM tool written in Ruby
+A simple command-line CRM tool written in Ruby.
