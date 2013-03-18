@@ -1,5 +1,5 @@
-# require "SimpleCov"
-# SimpleCov.start
+require "SimpleCov"
+SimpleCov.start
 
 require "./crm"
 require "test/unit"
@@ -39,10 +39,28 @@ class TestCRM < Test::Unit::TestCase
 		assert_equal "Oggier" "Borter", db.display_info_by_attribute("lastname")
 	end
 
-	# def test_modify_contact
-	# 	db = Database.new
-	# 	row = Row.new(1, "Jonas", "Oggier", "jonas.oggier@gmail.com", "This is a Jonas note.")
-	# 	db.add(row1)
-	# 	, db.modify_row()
-	# end
+	def test_modify_contact
+		db = Database.new
+		row1 = Row.new(1, "jonas", "oggier", "jonas.oggier@gmail.com", "This is a Jonas note.")
+		db.add(row1)
+		row2 = Row.new(2, "stefan", "borter", "stefan.borter@gmail.com", "This is a Stefan note.")
+		db.add(row2)
+		db.modify_row("jonas", "lastname", "jaeger")
+		db.modify_row("stefan", "email", "will@bitmaker.com")
+		assert_equal "jaeger", row1.lastname
+		assert_equal "will@bitmaker.com", row2.email
+	end
+
+	def test_modify_contact_with_unknown_attribute
+		db = Database.new
+		row1 = Row.new(1, "jonas", "oggier", "jonas.oggier@gmail.com", "This is a Jonas note.")
+		db.add(row1)
+		row2 = Row.new(2, "stefan", "borter", "stefan.borter@gmail.com", "This is a Stefan note.")
+		db.add(row2)
+		db.modify_row("jonas", "bogus", "jaeger")
+		db.modify_row("stefan", "oops", "will@bitmaker.com")
+		assert_equal "oggier", row1.lastname
+		assert_equal "stefan.borter@gmail.com", row2.email
+	end
+
 end

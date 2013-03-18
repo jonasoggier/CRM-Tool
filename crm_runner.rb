@@ -21,6 +21,7 @@ loop do
 	puts "-- Type 'display attribute' to display all contacts according to an attribute"
 	puts "-- Type 'delete' to delete a particular contact from the database"
 	puts "-- Type 'exit' to end the session (!! ALL DATA WILL BE DELETED !!)"
+	puts
 
 	input = gets.chomp
 	
@@ -40,19 +41,23 @@ loop do
 		puts "======================================="
 		puts "Contact successfully added to database."
 		puts "======================================="
+		puts 
 
 	when input = "modify"
+		puts "\e[H\e[2J" #clears screen
 		puts "Enter attribute (id, first name, last name or email) of contact to be modified"
 		selection = gets.chomp
 		puts "Are you sure to modify the following contact? Type 'yes' to confirm or 'no' to exit."
 		db.display_particular_row(selection)
 		yesorno = gets.chomp
 		if yesorno == "yes"
+			puts "\e[H\e[2J" #clears screen
 			puts "Type one of the following commands:"
 			puts "-- 'id' if you want to change the id"
 			puts "-- 'firstname' if you want to change the first name"
 			puts "-- 'lastname' if you want to change the last name"
 			puts "-- 'email' if you want to change the email"
+			puts
 			attribute = gets.chomp
 			puts "Type the new value for #{attribute}:"
 			modification = gets.chomp
@@ -61,6 +66,7 @@ loop do
 			puts "==========================================="
 			puts "Contact successfully updated."
 			puts "==========================================="
+			puts
 		end
 
 	when input = "display all"
@@ -92,7 +98,11 @@ loop do
 		puts "\e[H\e[2J" #clears screen 
 		puts "List of all contacts according to #{selection}:"
 		puts
-		puts db.display_info_by_attribute(selection)
+		db.display_info_by_attribute(selection)
+		puts
+		puts "==========================================="
+		puts "==========================================="
+		puts
 
 	when input = "delete"
 		puts "\e[H\e[2J" #clears screen

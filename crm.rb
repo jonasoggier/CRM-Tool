@@ -13,11 +13,13 @@ class Database
 	end
 
 	def modify_row(selection, attribute, modification)
-		@rows_array.each do |x|
-			if (x.id == attribute) || (x.firstname == attribute) || (x.lastname == attribute) || (x.email == attribute)
-				x.attribute = modification
-			end 
+		row = @rows_array.detect do |x|
+			(x.id == selection) || (x.firstname == selection) || (x.lastname == selection) || (x.email == selection)
 		end
+		if row 
+			row.send(attribute + '=', modification) rescue nil
+		end
+		row # good practice to return object at the end of the method
 	end
 
 	def display_all_rows
@@ -26,7 +28,7 @@ class Database
 	 	end
 	end
 
-	def display_particular_row(attribute)
+	def display_particular_row(attribute) 
 		@rows_array.each do |x|
 			if (x.id == attribute) || (x.firstname == attribute) || (x.lastname == attribute) || (x.email == attribute)
 				x.display_row
@@ -36,7 +38,7 @@ class Database
 
 	def display_info_by_attribute(arg)
 		@rows_array.each do |x|
-			x.arg
+			puts x.send(arg) # Database#send passes the 'arg' string to x, but as a method and not as a string
 		end
 	end
 
